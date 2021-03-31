@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="j02aXo" name="PassInput" projectType="audioplug" useAppConfig="0"
+<JUCERPROJECT id="j02aXo" name="VCF" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
-  <MAINGROUP id="xXukxK" name="PassInput">
+  <MAINGROUP id="xXukxK" name="VCF">
     <GROUP id="{A362A88D-199C-7371-32BC-438693B6999E}" name="Source">
       <FILE id="IUV8Tm" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

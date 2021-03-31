@@ -14,25 +14,32 @@
 //==============================================================================
 /**
 */
-class PassInputAudioProcessorEditor  : public juce::AudioProcessorEditor,
+class VCFAudioProcessorEditor  : public juce::AudioProcessorEditor,
                                        private juce::Slider::Listener 
 {
 public:
-    PassInputAudioProcessorEditor (PassInputAudioProcessor&);
-    ~PassInputAudioProcessorEditor() override;
+    VCFAudioProcessorEditor (VCFAudioProcessor&, juce::AudioProcessorValueTreeState&);
+    ~VCFAudioProcessorEditor() override;
 
     //==============================================================================
+    void sliderValueChanged(juce::Slider* slider) override;
     void paint (juce::Graphics&) override;
     void resized() override;
 
 private:
-    void sliderValueChanged (juce::Slider* slider) override; // [3]
-    
+    VCFAudioProcessor& audioProcessor;
+        juce::AudioProcessorValueTreeState& audioTree;
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    PassInputAudioProcessor& audioProcessor;
-    
+
     juce::Slider controlK;
-    juce::Slider controlVt;
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PassInputAudioProcessorEditor)
+    juce::Slider controlF0;
+    juce::Label labelK;
+    juce::Label labelF0;
+
+
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachK;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachF0;
+    
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VCFAudioProcessorEditor)
 };
