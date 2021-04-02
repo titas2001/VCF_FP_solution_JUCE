@@ -29,7 +29,7 @@ VCFAudioProcessorEditor::VCFAudioProcessorEditor (VCFAudioProcessor& p, juce::Au
     labelK.setColour(juce::Label::textColourId, juce::Colour(3, 3, 3));
     addAndMakeVisible(labelK);
 
-    controlF0.setSliderStyle(juce::Slider::LinearVertical);
+    controlF0.setSliderStyle(juce::Slider::LinearHorizontal);
     controlF0.addListener(this);
     controlF0.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
     addAndMakeVisible(controlF0);
@@ -40,12 +40,25 @@ VCFAudioProcessorEditor::VCFAudioProcessorEditor (VCFAudioProcessor& p, juce::Au
     labelF0.setColour(juce::Label::textColourId, juce::Colour(3, 3, 3));
     addAndMakeVisible(labelF0);
 
+
+    controlVt.setSliderStyle(juce::Slider::LinearBarVertical);
+    controlVt.addListener(this);
+    controlVt.setTextBoxStyle(juce::Slider::NoTextBox, false, 90, 0);
+    addAndMakeVisible(controlVt);
+    sliderAttachVt.reset(new juce::AudioProcessorValueTreeState::SliderAttachment(audioTree, "controlVt_ID", controlVt));
+    controlVt.setPopupDisplayEnabled(true, false, this);
+    labelVt.setText(("Voltage"), juce::dontSendNotification);
+    labelVt.setFont(juce::Font("Slope Opera", 16, 0));
+    labelVt.setColour(juce::Label::textColourId, juce::Colour(3, 3, 3));
+    addAndMakeVisible(labelVt);
+
 }
 
 VCFAudioProcessorEditor::~VCFAudioProcessorEditor()
 {
     sliderAttachK.reset();
     sliderAttachF0.reset();
+    sliderAttachVt.reset();
 }
 
 //==============================================================================
@@ -67,13 +80,15 @@ void VCFAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    int sliderPaddingBottom = 60, sliderWidth = 40, labelHeight = 20;
+    int sliderPaddingBottom = 100, sliderWidth = 40, labelHeight = 40;
 
-    controlK.setBounds (40, 30, sliderWidth, getHeight() - sliderPaddingBottom);
-    controlF0.setBounds(getWidth()-80, 30, 20, getHeight() - sliderPaddingBottom);
-    
-    labelK.setBounds(40+sliderWidth/2-80/2, getHeight()- labelHeight, 80, labelHeight);
-    labelF0.setBounds((getWidth()-70-80/2), getHeight()- labelHeight, 70, labelHeight);
+    controlK.setBounds(40, 30, sliderWidth, getHeight() - sliderPaddingBottom);
+    controlF0.setBounds(70, getHeight() - 20, getWidth() - 70, 20);
+    controlVt.setBounds(getWidth() - 80, 30, 20, getHeight() - sliderPaddingBottom);
+
+    labelK.setBounds(40 + sliderWidth / 2 - 80 / 2, getHeight() - labelHeight - 20, 80, labelHeight);
+    labelF0.setBounds(0, getHeight() - 20, 70, 20);
+    labelVt.setBounds((getWidth() - 70 - 80 / 2), getHeight() - labelHeight - 20, 70, labelHeight);
 
 }
 void VCFAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)

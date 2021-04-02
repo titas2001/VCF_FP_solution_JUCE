@@ -57,12 +57,12 @@ public:
     //void setK(double val) { controlledK = val; };
     //void setVt(double val) { controlledF0 = val; };
     void parameterChanged(const juce::String& parameterID, float newValue);
-    void updateFilter(bool realFreq);
+    void updateFilter();
     std::unique_ptr<juce::dsp::Oversampling<float>> oversampling;
     juce::AudioProcessorValueTreeState audioTree;
 
 private:
-    double K, controlledK, Vt, controlledF0, f0;
+    double controlledK, K, controlledVt, Vt, controlledF0, f0;
     double I0, C, Fs, gamma, eta, err, T;
     double vin1, vc1, vc2, vc3, vc4, vc11, vc21, vc31, vc41, /*u1, u2, u3, u4, u5,*/ s1, s2, s3, s4, xc1, xc2, xc3, xc4;
     double vc4Past;
@@ -73,10 +73,9 @@ private:
     float vout, voutTemp;
     float* voutP = &vout;
     int upsamplingScale;
-    //juce::AudioProcessorValueTreeState audioTree;
+
     juce::dsp::ProcessorDuplicator< juce::dsp::IIR::Filter <float>, juce::dsp::IIR::Coefficients<float>> lowPassFilter;
 
-    std::vector<float> upVout, upVin;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VCFAudioProcessor)

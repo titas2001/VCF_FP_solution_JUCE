@@ -23,7 +23,8 @@ VCFAudioProcessor::VCFAudioProcessor()
     ),
     audioTree(*this, nullptr, juce::Identifier("PARAMETERS"),
         { std::make_unique<juce::AudioParameterFloat>("controlK_ID","ControlK",juce::NormalisableRange<float>(0.0, 4.0, 0.001),0.5),
-          std::make_unique<juce::AudioParameterFloat>("controlF0_ID","ControlF0",juce::NormalisableRange<float>(50.0, 3000.0, 1.0),1000.0)
+          std::make_unique<juce::AudioParameterFloat>("controlF0_ID","ControlF0",juce::NormalisableRange<float>(50.0, 3000.0, 1.0),1000.0),
+          std::make_unique<juce::AudioParameterFloat>("controlVt_ID","ControlVt",juce::NormalisableRange<float>(0.0, 0.05, 0.00001),0.026)
         }),
     lowPassFilter(juce::dsp::IIR::Coefficients< float >::makeLowPass((48000.0 * 4.0), 20000.0))
 #endif
@@ -31,9 +32,11 @@ VCFAudioProcessor::VCFAudioProcessor()
     oversampling.reset(new juce::dsp::Oversampling<float>(2, 2, juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR, false));
     audioTree.addParameterListener("controlK_ID", this);
     audioTree.addParameterListener("controlF0_ID", this);
+    audioTree.addParameterListener("controlVt_ID", this);
 
     controlledK = 0.5;
-    controlledF0 = 500.0;
+    controlledF0 = 1000.0;
+    controlledVt = 0.026;
 
 }
 
@@ -127,11 +130,11 @@ void VCFAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
     vc11 = vc21 = vc31 = vc41 = 0.0;
     vin1 = 0.0;
     vout = 0.0;
-    //u1Temp = u2Temp = u3Temp = u4Temp = u5Temp = 0.0;
     s1 = s2 = s3 = s4 = 0.0;
     xc1 = xc2 = xc3 = xc4 = 0.0;
+    // set controlled values to starting values (redundant maybe delit later)
     controlledK = 0.5;
-    controlledF0 = 500.0;
+    controlledF0 = 1000.0;
 }
 
 void VCFAudioProcessor::releaseResources()
@@ -146,8 +149,8 @@ bool VCFAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) cons
      || layouts.getMainOutputChannelSet() == juce::AudioChannelSet::disabled())
         return false;
         
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()/*
-     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo()*/)
+    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
+     && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
     
     return layouts.getMainInputChannelSet() == layouts.getMainOutputChannelSet();
@@ -168,8 +171,8 @@ void VCFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Mi
     // 4. Apply low pass again 
     // 5. For loop to downsample
 
-    I0 = 2.0 * Fs * std::tan(2.0 * 3.14 * controlledF0 / Fs / 2.0) * 8.0 * C * Vt; // slider controls the Vt
-
+    I0 = 2.0 * Fs * std::tan(2.0 * 3.14 * controlledF0 / Fs / 2.0) * 8.0 * C * controlledVt; // slider controls the f0
+    gamma = eta * controlledVt;
 
     for (int i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
@@ -178,7 +181,7 @@ void VCFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Mi
     juce::dsp::AudioBlock<float> blockInput(buffer);
     juce::dsp::AudioBlock<float> blockOutput = oversampling->processSamplesUp(blockInput);
 
-    updateFilter(0);
+    updateFilter();
     lowPassFilter.process(juce::dsp::ProcessContextReplacing<float>(blockOutput));
     for (int channel = 0; channel < blockOutput.getNumChannels(); ++channel)
     {
@@ -210,7 +213,7 @@ void VCFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Mi
                 vc4Temp = T / 2.0 * xc4Temp + s4;
                 vc41Temp = std::tanh(vc4Temp / (6.0 * gamma));
 
-                voutTemp = vc4Temp / 2.0 + vc4Temp * controlledK; //noteOnVel = K in literature = gfdbk in MATLAB
+                voutTemp = vc4Temp / 2.0 + vc4Temp * controlledK; //controlledK = K in literature = gfdbk in MATLAB
             }
             //updates
             vin1 = vin1Temp;
@@ -235,7 +238,7 @@ void VCFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Mi
             blockOutput.setSample(channel, sample, vout);
         }
     }
-    updateFilter(0);
+    updateFilter();
     lowPassFilter.process(juce::dsp::ProcessContextReplacing<float>(blockOutput));
 
     oversampling->processSamplesDown(blockInput);
@@ -257,12 +260,13 @@ void VCFAudioProcessor::parameterChanged(const juce::String& parameterID, float 
     else if (parameterID == "controlF0_ID") {
         controlledF0 = newValue;
     }
+    else if (parameterID == "controlVt_ID") {
+        controlledVt = newValue;
+    }
 }
-void VCFAudioProcessor::updateFilter(bool realFreq)
+void VCFAudioProcessor::updateFilter()
 {
-    float frequency;
-    if (realFreq) frequency = 48e3;
-    else frequency = 48e3 * 4;
+    float frequency = 48e3 * 4;
 
     *lowPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(frequency, frequency / 4);
 }
