@@ -34,12 +34,14 @@ private:
 
     juce::Slider controlK;
     juce::Slider controlF0;
+    juce::Slider controlVt;
     juce::Label labelK;
     juce::Label labelF0;
-
+    juce::Label labelVt;
 
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachK;
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachF0;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachVt;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VCFAudioProcessorEditor)
 };

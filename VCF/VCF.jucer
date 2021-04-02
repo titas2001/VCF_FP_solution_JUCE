@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="j02aXo" name="VCF" projectType="audioplug" useAppConfig="0"
+<JUCERPROJECT id="zCUaMu" name="VCF" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
-  <MAINGROUP id="xXukxK" name="VCF">
-    <GROUP id="{A362A88D-199C-7371-32BC-438693B6999E}" name="Source">
-      <FILE id="IUV8Tm" name="PluginProcessor.cpp" compile="1" resource="0"
+  <MAINGROUP id="PQQD0f" name="VCF">
+    <GROUP id="{02C5550C-D299-0794-66AF-F512EAB9DA12}" name="Source">
+      <FILE id="My7Fqs" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
-      <FILE id="dACPVA" name="PluginProcessor.h" compile="0" resource="0"
+      <FILE id="uMd610" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="YgnnXF" name="PluginEditor.cpp" compile="1" resource="0"
+      <FILE id="jFBtID" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
-      <FILE id="KWjxIu" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="eGj3Yq" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
     <VS2019 targetFolder="Builds/VisualStudio2019">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="PassInput"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="PassInput"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="VCF"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="VCF"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_dsp" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../Users/tlasi/OneDrive/Documents/JUCE/modules"/>
       </MODULEPATHS>
     </VS2019>
   </EXPORTFORMATS>
