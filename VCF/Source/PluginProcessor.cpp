@@ -240,8 +240,8 @@ void VCFAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::Mi
 
     oversampling->processSamplesDown(blockInput);
 
-    updateFilter(1);
-    lowPassFilter.process(juce::dsp::ProcessContextReplacing<float>(blockOutput));
+    //updateFilter(1);
+    //lowPassFilter.process(juce::dsp::ProcessContextReplacing<float>(blockOutput));
 }
 //==============================================================================
 bool VCFAudioProcessor::hasEditor() const
