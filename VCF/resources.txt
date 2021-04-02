@@ -1,0 +1,3 @@
+upsampling and filtering examples as well as 
+slider styling examples taken from 
+https://github.com/Lorenzoncina/JuceDistortionPlugin/tree/master/DistortionPlugin/Source
